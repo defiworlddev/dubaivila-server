@@ -88,10 +88,6 @@ class EstateRequestService {
     );
   }
 
-  async getRequestById(requestId: string): Promise<IEstateRequest | null> {
-    return await EstateRequest.findById(requestId).exec();
-  }
-
   async getRequestByIdWithPhoneNumber(requestId: string): Promise<IRequestWithPhoneNumber | null> {
     const request = await EstateRequest.findById(requestId).exec();
     
@@ -121,6 +117,11 @@ class EstateRequestService {
       createdAt: requestObj.createdAt,
       userPhoneNumber,
     };
+  }
+
+  async deleteRequest(requestId: string): Promise<boolean> {
+    const result = await EstateRequest.findByIdAndDelete(requestId).exec();
+    return result !== null;
   }
 }
 

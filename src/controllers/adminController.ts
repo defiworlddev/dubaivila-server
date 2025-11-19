@@ -4,6 +4,7 @@ import { AdminRequest } from '../middleware/adminAuth';
 import { adminService } from '../services/AdminService';
 import { authService } from '../services/AuthService';
 import { notificationService } from '../services/NotificationService';
+import { estateRequestService } from '../services/EstateRequestService';
 
 export const adminAuth = async (req: Request, res: Response) => {
   try {
@@ -171,6 +172,28 @@ export const markAllNotificationsAsRead = async (req: Request, res: Response) =>
   } catch (error) {
     console.error('Error marking all notifications as read:', error);
     res.status(500).json({ error: 'Failed to mark all notifications as read' });
+  }
+};
+
+export const deleteRequest = async (req: Request, res: Response) => {
+  try {
+    const adminReq = req as AdminRequest;
+    const { id } = req.params;
+
+    if (!id) {
+      return res.status(400).json({ error: 'Request ID is required' });
+    }
+
+    const deleted = await estateRequestService.deleteRequest(id);
+
+    if (!deleted) {
+      return res.status(404).json({ error: 'Request not found' });
+    }
+
+    res.json({ message: 'Request deleted successfully' });
+  } catch (error) {
+    console.error('Error deleting request:', error);
+    res.status(500).json({ error: 'Failed to delete request' });
   }
 };
 

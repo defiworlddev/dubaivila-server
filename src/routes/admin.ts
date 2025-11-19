@@ -21,5 +21,8 @@ router.get('/notifications/unread/count', authenticate, authenticateAdmin, admin
 router.put('/notifications/:id/read', authenticate, authenticateAdmin, adminController.markNotificationAsRead);
 router.put('/notifications/read-all', authenticate, authenticateAdmin, adminController.markAllNotificationsAsRead);
 
+// Request routes
+router.delete('/requests/:id', authenticate, authenticateAdmin, adminController.deleteRequest);
+
 export default router;
 
