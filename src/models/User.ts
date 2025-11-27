@@ -5,7 +5,6 @@ export interface IUser extends Document {
   name?: string;
   isNewUser: boolean;
   isAgent: boolean;
-  isApproved: boolean;
   createdAt: Date;
 }
 
@@ -26,11 +25,6 @@ const UserSchema = new Schema<IUser>(
       default: true,
     },
     isAgent: {
-      type: Boolean,
-      required: true,
-      default: false,
-    },
-    isApproved: {
       type: Boolean,
       required: true,
       default: false,

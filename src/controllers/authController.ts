@@ -25,15 +25,13 @@ export const sendVerification = async (req: Request, res: Response) => {
 
 export const verifyCode = async (req: Request, res: Response) => {
   try {
-    const { phoneNumber, code, agent } = req.body;
+    const { phoneNumber, code } = req.body;
 
     if (!phoneNumber || !code) {
       return res.status(400).json({ error: 'Phone number and code are required' });
     }
 
-    const isAgent = agent === true || agent === 'true';
-
-    const result = await authService.verifyCode(phoneNumber, code, isAgent);
+    const result = await authService.verifyCode(phoneNumber, code);
 
     if (!result.isValid) {
       return res.status(401).json({ error: 'Invalid verification code' });
@@ -54,13 +52,13 @@ export const verifyCode = async (req: Request, res: Response) => {
 
 export const completeRegistration = async (req: Request, res: Response) => {
   try {
-    const { userId, name, isAgent } = req.body;
+    const { userId, name } = req.body;
 
     if (!userId || !name) {
       return res.status(400).json({ error: 'User ID and name are required' });
     }
 
-    const user = await authService.completeRegistration(userId, name, isAgent);
+    const user = await authService.completeRegistration(userId, name);
 
     if (!user) {
       return res.status(404).json({ error: 'User not found' });

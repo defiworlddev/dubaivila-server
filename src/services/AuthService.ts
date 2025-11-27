@@ -31,7 +31,7 @@ class AuthService {
     return code;
   }
 
-  async verifyCode(phoneNumber: string, code: string, isAgent?: boolean): Promise<{ isValid: boolean; user?: IUser }> {
+  async verifyCode(phoneNumber: string, code: string): Promise<{ isValid: boolean; user?: IUser }> {
     const stored = this.verificationCodes.get(phoneNumber);
     
     if (!stored) {
@@ -52,12 +52,6 @@ class AuthService {
     const existingUser = await User.findOne({ phoneNumber });
 
     if (existingUser) {
-      // Update existing user if agent flag is provided
-      if (isAgent !== undefined && isAgent === true) {
-        existingUser.isAgent = true;
-        existingUser.isApproved = false; // Agents need admin approval
-        await existingUser.save();
-      }
       return { isValid: true, user: existingUser };
     }
 
@@ -68,31 +62,16 @@ class AuthService {
       createdAt: new Date(),
     };
 
-    // If agent flag is provided, set agent status
-    if (isAgent === true) {
-      userData.isAgent = true;
-      userData.isApproved = false; // Agents need admin approval
-    }
-
     const createdUser = await User.create(userData);
     
     return { isValid: true, user: createdUser };
   }
 
-  async completeRegistration(userId: string, name: string, isAgent?: boolean): Promise<IUser | null> {
+  async completeRegistration(userId: string, name: string): Promise<IUser | null> {
     const updateData: any = {
       name,
       isNewUser: false,
     };
-
-    // If isAgent is provided, set it (agents need admin approval)
-    if (isAgent !== undefined) {
-      updateData.isAgent = isAgent;
-      // Agents start as not approved, waiting for admin approval
-      if (isAgent) {
-        updateData.isApproved = false;
-      }
-    }
 
     const user = await User.findByIdAndUpdate(
       userId,

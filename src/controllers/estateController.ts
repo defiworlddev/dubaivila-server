@@ -61,6 +61,22 @@ export const createRequest = async (req: AuthRequest, res: Response) => {
   }
 };
 
+export const getRequestById = async (req: AuthRequest, res: Response) => {
+  try {
+    const { id } = req.params;
+    const request = await estateRequestService.getRequestById(id);
+    
+    if (!request) {
+      return res.status(404).json({ error: 'Request not found' });
+    }
+    
+    res.json({ request });
+  } catch (error) {
+    console.error('Error fetching request:', error);
+    res.status(500).json({ error: 'Failed to fetch request' });
+  }
+};
+
 export const updateRequestStatus = async (req: AuthRequest, res: Response) => {
   try {
     const { id } = req.params;

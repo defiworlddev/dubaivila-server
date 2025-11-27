@@ -9,7 +9,6 @@ export interface AdminRequest extends AuthRequest {
     phoneNumber: string;
     name?: string;
     isAgent: boolean;
-    isApproved: boolean;
   };
 }
 

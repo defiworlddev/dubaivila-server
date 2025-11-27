@@ -76,36 +76,30 @@ export const getAllUsers = async (req: Request, res: Response) => {
   }
 };
 
-export const getPendingAgents = async (req: Request, res: Response) => {
-  try {
-    const adminReq = req as AdminRequest;
-    const agents = await adminService.getPendingAgents();
-    res.json({ agents });
-  } catch (error) {
-    console.error('Error fetching pending agents:', error);
-    res.status(500).json({ error: 'Failed to fetch pending agents' });
-  }
-};
-
-export const approveAgent = async (req: Request, res: Response) => {
+export const updateUserIsAgent = async (req: Request, res: Response) => {
   const adminReq = req as AdminRequest;
   try {
     const { userId } = req.params;
+    const { isAgent } = req.body;
 
     if (!userId) {
       return res.status(400).json({ error: 'User ID is required' });
     }
 
-    const user = await adminService.approveAgent(userId);
+    if (typeof isAgent !== 'boolean') {
+      return res.status(400).json({ error: 'isAgent must be a boolean value' });
+    }
+
+    const user = await adminService.updateUserIsAgent(userId, isAgent);
 
     if (!user) {
       return res.status(404).json({ error: 'User not found' });
     }
 
-    res.json({ user, message: 'Agent approved successfully' });
+    res.json({ user, message: 'User agent status updated successfully' });
   } catch (error) {
-    console.error('Error approving agent:', error);
-    res.status(500).json({ error: 'Failed to approve agent' });
+    console.error('Error updating user agent status:', error);
+    res.status(500).json({ error: 'Failed to update user agent status' });
   }
 };
 

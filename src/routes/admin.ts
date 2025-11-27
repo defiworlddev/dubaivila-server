@@ -11,8 +11,7 @@ router.post('/send-verification', adminController.sendAdminVerification);
 
 // Admin protected routes - require user authentication and admin verification
 router.get('/users', authenticate, authenticateAdmin, adminController.getAllUsers);
-router.get('/agents/pending', authenticate, authenticateAdmin, adminController.getPendingAgents);
-router.post('/agents/:userId/approve', authenticate, authenticateAdmin, adminController.approveAgent);
+router.put('/users/:userId/isAgent', authenticate, authenticateAdmin, adminController.updateUserIsAgent);
 
 // Notification routes
 router.get('/notifications', authenticate, authenticateAdmin, adminController.getAllNotifications);

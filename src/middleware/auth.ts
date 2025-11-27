@@ -9,7 +9,6 @@ export interface AuthRequest extends Request {
     phoneNumber: string;
     name?: string;
     isAgent: boolean;
-    isApproved: boolean;
   };
 }
 
@@ -44,7 +43,6 @@ export const authenticate = async (
       phoneNumber: user.phoneNumber,
       name: user.name,
       isAgent: user.isAgent,
-      isApproved: user.isApproved,
     };
 
     next();

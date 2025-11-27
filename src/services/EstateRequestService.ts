@@ -63,6 +63,10 @@ class EstateRequestService {
       .exec();
   }
 
+  async getRequestById(requestId: string): Promise<IEstateRequest | null> {
+    return await EstateRequest.findById(requestId).exec();
+  }
+
   async createRequest(
     userId: string,
     requestData: any

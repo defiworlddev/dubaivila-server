@@ -7,6 +7,7 @@ const router = Router();
 router.use(authenticate);
 
 router.get('/requests', estateController.getAllRequests);
+router.get('/requests/:id', estateController.getRequestById);
 router.get('/my-requests', estateController.getMyRequests);
 router.post('/requests', estateController.createRequest);
 router.patch('/requests/:id/status', estateController.updateRequestStatus);
