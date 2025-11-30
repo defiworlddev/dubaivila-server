@@ -5,6 +5,7 @@ import { estateRequestService } from '../services/EstateRequestService';
 export const getAllRequests = async (req: AuthRequest, res: Response) => {
   try {
     const requests = await estateRequestService.getAllRequests();
+
     res.json({ requests });
   } catch (error) {
     console.error('Error fetching requests:', error);

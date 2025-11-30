@@ -4,12 +4,10 @@ import * as estateController from '../controllers/estateController';
 
 const router = Router();
 
-router.use(authenticate);
-
 router.get('/requests', estateController.getAllRequests);
 router.get('/requests/:id', estateController.getRequestById);
-router.get('/my-requests', estateController.getMyRequests);
-router.post('/requests', estateController.createRequest);
-router.patch('/requests/:id/status', estateController.updateRequestStatus);
+router.get('/my-requests', authenticate, estateController.getMyRequests);
+router.post('/requests', authenticate, estateController.createRequest);
+router.patch('/requests/:id/status', authenticate, estateController.updateRequestStatus);
 
 export default router;
