@@ -83,9 +83,9 @@ export const updateRequestStatus = async (req: AuthRequest, res: Response) => {
     const { id } = req.params;
     const { status } = req.body;
 
-    if (!status || !['pending', 'in_progress', 'completed'].includes(status)) {
+    if (!status || !['New Request', 'Receiving Offers', 'Deal Closed 💯'].includes(status)) {
       return res.status(400).json({
-        error: 'Valid status is required (pending, in_progress, completed)'
+        error: 'Valid status is required (New Request, Receiving Offers, Deal Closed 💯)'
       });
     }
 

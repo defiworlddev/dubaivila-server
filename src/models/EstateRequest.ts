@@ -10,7 +10,7 @@ export interface IEstateRequest extends Document {
   surface?: string;
   district?: string;
   additionalRequirements?: string;
-  status: 'pending' | 'in_progress' | 'completed';
+  status: 'New Request' | 'Receiving Offers' | 'Deal Closed 💯';
   createdAt: Date;
 }
 
@@ -50,9 +50,9 @@ const EstateRequestSchema = new Schema<IEstateRequest>(
     },
     status: {
       type: String,
-      enum: ['pending', 'in_progress', 'completed'],
+      enum: ['New Request', 'Receiving Offers', 'Deal Closed 💯'],
       required: true,
-      default: 'pending',
+      default: 'New Request',
     },
     createdAt: {
       type: Date,

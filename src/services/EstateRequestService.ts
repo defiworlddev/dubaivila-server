@@ -13,7 +13,7 @@ export interface IRequestWithPhoneNumber {
   surface?: string;
   district?: string;
   additionalRequirements?: string;
-  status: 'pending' | 'in_progress' | 'completed';
+  status: 'New Request' | 'Receiving Offers' | 'Deal Closed 💯';
   createdAt: Date;
   userPhoneNumber?: string;
 }
@@ -74,7 +74,7 @@ class EstateRequestService {
     const request = await EstateRequest.create({
       userId,
       ...requestData,
-      status: 'pending',
+      status: 'New Request',
       createdAt: new Date(),
     });
 
