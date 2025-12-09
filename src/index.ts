@@ -11,7 +11,7 @@ import adminRoutes from './routes/admin.js';
 
 const app = express();
 const PORT = process.env.PORT || 5001;
-const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/dubaivilas';
+const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/dubaivilas1';
 
 // Connect to MongoDB
 mongoose

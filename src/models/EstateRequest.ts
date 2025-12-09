@@ -2,14 +2,13 @@ import mongoose, { Schema, Document } from 'mongoose';
 
 export interface IEstateRequest extends Document {
   userId: string;
-  propertyType: string;
-  location: string;
+  category: string;
+  buyOrRent: string;
   budget: string;
-  bedrooms?: string;
-  bathrooms?: string;
-  surface?: string;
-  district?: string;
-  additionalRequirements?: string;
+  area: string;
+  bed?: string;
+  size?: string;
+  additionalInfo?: string;
   status: 'New Request' | 'Receiving Offers' | 'Deal Closed 💯';
   createdAt: Date;
 }
@@ -21,11 +20,11 @@ const EstateRequestSchema = new Schema<IEstateRequest>(
       required: true,
       index: true,
     },
-    propertyType: {
+    category: {
       type: String,
       required: true,
     },
-    location: {
+    buyOrRent: {
       type: String,
       required: true,
     },
@@ -33,19 +32,17 @@ const EstateRequestSchema = new Schema<IEstateRequest>(
       type: String,
       required: true,
     },
-    bedrooms: {
+    area: {
+      type: String,
+      required: true,
+    },
+    bed: {
       type: String,
     },
-    bathrooms: {
+    size: {
       type: String,
     },
-    surface: {
-      type: String,
-    },
-    district: {
-      type: String,
-    },
-    additionalRequirements: {
+    additionalInfo: {
       type: String,
     },
     status: {

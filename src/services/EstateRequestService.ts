@@ -5,17 +5,17 @@ import { User } from '../models/User';
 export interface IRequestWithPhoneNumber {
   _id: string;
   userId: string;
-  propertyType: string;
-  location: string;
+  category: string;
+  buyOrRent: string;
   budget: string;
-  bedrooms?: string;
-  bathrooms?: string;
-  surface?: string;
-  district?: string;
-  additionalRequirements?: string;
+  area: string;
+  bed?: string;
+  size?: string;
+  additionalInfo?: string;
   status: 'New Request' | 'Receiving Offers' | 'Deal Closed 💯';
   createdAt: Date;
   userPhoneNumber?: string;
+  userName?: string;
 }
 
 class EstateRequestService {
@@ -35,24 +35,25 @@ class EstateRequestService {
       .filter(id => mongoose.Types.ObjectId.isValid(id))
       .map(id => new mongoose.Types.ObjectId(id));
     const users = await User.find({ _id: { $in: userIdsAsObjectIds } }).exec();
-    const userMap = new Map(users.map(u => [u._id.toString(), u.phoneNumber]));
+    const userPhoneMap = new Map(users.map(u => [u._id.toString(), u.phoneNumber]));
+    const userNameMap = new Map(users.map(u => [u._id.toString(), u.name]));
 
     return requests.map(request => {
       const requestObj = request.toObject();
       return {
         _id: requestObj._id.toString(),
         userId: requestObj.userId,
-        propertyType: requestObj.propertyType,
-        location: requestObj.location,
+        category: requestObj.category,
+        buyOrRent: requestObj.buyOrRent,
         budget: requestObj.budget,
-        bedrooms: requestObj.bedrooms,
-        bathrooms: requestObj.bathrooms,
-        surface: requestObj.surface,
-        district: requestObj.district,
-        additionalRequirements: requestObj.additionalRequirements,
+        area: requestObj.area,
+        bed: requestObj.bed,
+        size: requestObj.size,
+        additionalInfo: requestObj.additionalInfo,
         status: requestObj.status,
         createdAt: requestObj.createdAt,
-        userPhoneNumber: userMap.get(request.userId) || undefined,
+        userPhoneNumber: userPhoneMap.get(request.userId) || undefined,
+        userName: userNameMap.get(request.userId) || undefined,
       };
     });
   }
@@ -100,26 +101,28 @@ class EstateRequestService {
     }
 
     let userPhoneNumber: string | undefined;
+    let userName: string | undefined;
     if (mongoose.Types.ObjectId.isValid(request.userId)) {
       const user = await User.findById(request.userId).exec();
       userPhoneNumber = user?.phoneNumber;
+      userName = user?.name;
     }
 
     const requestObj = request.toObject();
     return {
       _id: requestObj._id.toString(),
       userId: requestObj.userId,
-      propertyType: requestObj.propertyType,
-      location: requestObj.location,
+      category: requestObj.category,
+      buyOrRent: requestObj.buyOrRent,
       budget: requestObj.budget,
-      bedrooms: requestObj.bedrooms,
-      bathrooms: requestObj.bathrooms,
-      surface: requestObj.surface,
-      district: requestObj.district,
-      additionalRequirements: requestObj.additionalRequirements,
+      area: requestObj.area,
+      bed: requestObj.bed,
+      size: requestObj.size,
+      additionalInfo: requestObj.additionalInfo,
       status: requestObj.status,
       createdAt: requestObj.createdAt,
       userPhoneNumber,
+      userName,
     };
   }
 

@@ -28,31 +28,29 @@ export const createRequest = async (req: AuthRequest, res: Response) => {
   try {
     const userId = req.userId!;
     const {
-      propertyType,
-      location,
+      category,
+      buyOrRent,
       budget,
-      bedrooms,
-      bathrooms,
-      surface,
-      district,
-      additionalRequirements,
+      area,
+      bed,
+      size,
+      additionalInfo,
     } = req.body;
 
-    if (!propertyType || !location || !budget) {
+    if (!category || !buyOrRent || !budget || !area) {
       return res.status(400).json({
-        error: 'Property type, location, and budget are required'
+        error: 'Category, buy/rent, budget, and area are required'
       });
     }
 
     const request = await estateRequestService.createRequest(userId, {
-      propertyType,
-      location,
+      category,
+      buyOrRent,
       budget,
-      bedrooms,
-      bathrooms,
-      surface,
-      district,
-      additionalRequirements,
+      area,
+      bed,
+      size,
+      additionalInfo,
     });
 
     res.status(201).json({ request });
